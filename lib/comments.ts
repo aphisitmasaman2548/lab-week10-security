@@ -1,8 +1,10 @@
+// [UI Branch Definition] CommentItem with optional emoji reactions map
 export interface CommentItem {
   id: string;
   itemId: string;
   author: string;
   content: string;
+  reactions?: Record<string, number>;
   createdAt: string;
 }
 

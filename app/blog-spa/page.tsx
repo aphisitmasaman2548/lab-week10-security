@@ -5,6 +5,7 @@ import type { ExternalItem } from '@/lib/external';
 import type { CommentItem } from '@/lib/comments';
 import { useRouter, useSearchParams } from 'next/navigation';
 import CommentForm from '@/components/CommentForm';
+import CommentReactions from '@/components/CommentReactions';
 import Link from 'next/link';
 
 function BlogSpaContent() {
@@ -234,7 +235,7 @@ function BlogSpaContent() {
                             ) : (
                                 <div className="space-y-2 mb-4 max-h-40 overflow-y-auto">
                                     {comments.map((c) => (
-                                        <div key={c.id} className="p-2 bg-gray-50 rounded border text-xs">
+                                        <div key={c.id} className="p-3 bg-gray-50 rounded-lg border border-gray-200 text-xs shadow-2xs">
                                             <div className="flex justify-between font-semibold text-gray-700">
                                                 <span>{c.author}</span>
                                                 <span className="text-gray-400 text-[10px]">
@@ -242,6 +243,11 @@ function BlogSpaContent() {
                                                 </span>
                                             </div>
                                             <p className="text-gray-600 mt-1">{c.content}</p>
+                                            <CommentReactions
+                                                commentId={c.id}
+                                                initialReactions={c.reactions}
+                                                onReactionSuccess={() => selectedId && fetchComments(selectedId)}
+                                            />
                                         </div>
                                     ))}
                                 </div>
