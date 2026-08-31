@@ -38,6 +38,8 @@ export default function ContactForm() {
       });
 
       if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง');
         setStatus('error');
         return;
       }
@@ -47,6 +49,7 @@ export default function ContactForm() {
       setEmail('');
       setMessage('');
     } catch {
+      setError('ส่งไม่สำเร็จ เกิดข้อผิดพลาดในการเชื่อมต่อ');
       setStatus('error');
     }
   }
