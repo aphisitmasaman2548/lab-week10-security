@@ -69,7 +69,7 @@ export default function MessageList({ initialMessages, currentUserId }: Props) {
   }
 
   // ฟังก์ชันบันทึกการแก้ไข (PATCH /api/messages/[id])
-  async function handleSaveEdit(messageId: string) {
+  async function handleSaveEdit(messageId: string, authorName?: string) {
     if (editText.trim().length < 5) {
       setFeedback({
         type: 'error',
@@ -94,7 +94,7 @@ export default function MessageList({ initialMessages, currentUserId }: Props) {
         setFeedback({
           type: 'success',
           status: res.status,
-          message: `✅ สำเร็จ (HTTP ${res.status}): แก้ไขข้อความเรียบร้อยแล้ว`,
+          message: `✅ สำเร็จ (HTTP ${res.status}): ${authorName ? `อัปเดตข้อความของ "${authorName}"` : 'แก้ไขข้อความ'} เรียบร้อยแล้ว`,
         });
         setMessages((prev) =>
           prev.map((m) => (m.id === messageId ? { ...m, message: editText } : m))
