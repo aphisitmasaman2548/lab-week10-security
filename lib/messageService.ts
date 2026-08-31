@@ -22,6 +22,7 @@ export async function createMessage(raw: unknown, authorId?: string | null) {
   }
 }
 
+// [Search Feature Branch] Support optional query keyword
 export async function listMessages(search?: string) {
   const all = await MessageModel.getMessages();
   if (!search) return all;
