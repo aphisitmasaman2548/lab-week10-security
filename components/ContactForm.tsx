@@ -68,16 +68,18 @@ export default function ContactForm() {
         className="border p-2 w-full rounded"
       />
       <div>
-        <label className="block text-xs font-semibold text-gray-600 mb-1">หมวดหมู่ / Tag:</label>
+        <label className="block text-xs font-semibold text-gray-600 mb-1">
+          🏷️ หมวดหมู่ / Tag: <span className="text-gray-400 font-normal">(เลือกหมวดหมู่ที่ต้องการติดต่อ)</span>
+        </label>
         <select
           value={tag}
           onChange={(e) => setTag(e.target.value)}
-          className="border p-2 w-full rounded bg-white text-sm"
+          className="border p-2 w-full rounded bg-white text-sm focus:outline-none focus:border-blue-500"
         >
-          <option value="General">General (ทั่วไป)</option>
-          <option value="Feedback">Feedback (ข้อเสนอแนะ)</option>
-          <option value="Inquiry">Inquiry (สอบถามข้อมูล)</option>
-          <option value="Support">Support (แจ้งปัญหา)</option>
+          <option value="General">💬 General (ทั่วไป)</option>
+          <option value="Feedback">⭐ Feedback (ข้อเสนอแนะ)</option>
+          <option value="Inquiry">❓ Inquiry (สอบถามข้อมูล)</option>
+          <option value="Support">🛠️ Support (แจ้งปัญหา)</option>
         </select>
       </div>
       <textarea
