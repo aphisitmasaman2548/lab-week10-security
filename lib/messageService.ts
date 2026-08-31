@@ -22,10 +22,14 @@ export async function createMessage(raw: unknown, authorId?: string | null) {
   }
 }
 
-// [Main Branch Version] Retrieve all messages
-export async function listMessages() {
-  const items = await MessageModel.getMessages();
-  return items;
+// Retrieve all messages with optional search filter
+export async function listMessages(search?: string) {
+  const all = await MessageModel.getMessages();
+  if (!search) return all;
+  return all.filter((m) =>
+    m.name.includes(search) ||
+    m.message.includes(search)
+  );
 }
 
 export async function getMessageById(id: string) {
