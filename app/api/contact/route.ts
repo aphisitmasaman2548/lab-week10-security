@@ -1,5 +1,6 @@
 import { createMessage, listMessages } from '@/lib/messageService';
 import { withErrorHandling } from '@/lib/withErrorHandling';
+import { cookies } from 'next/headers';
 
 export const GET = withErrorHandling(async (request: Request) => {
   const url = new URL(request.url);
@@ -14,7 +15,9 @@ export const GET = withErrorHandling(async (request: Request) => {
 });
 
 export const POST = withErrorHandling(async (request: Request) => {
+  const cookieStore = await cookies();
+  const sessionUserId = cookieStore.get('session')?.value;
   const body = await request.json();
-  const saved = await createMessage(body);
+  const saved = await createMessage(body, sessionUserId);
   return Response.json({ ok: true, item: saved }, { status: 201 });
 });

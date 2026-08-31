@@ -1,6 +1,6 @@
 import { prisma } from './prisma';
 
-export async function addMessage(data: { name: string; email: string; message: string }) {
+export async function addMessage(data: { name: string; email: string; message: string; authorId?: string | null }) {
   return prisma.message.create({ data });
 }
 
@@ -12,7 +12,7 @@ export async function getMessageById(id: string) {
   return prisma.message.findUnique({ where: { id } });
 }
 
-export async function updateMessage(id: string, updates: { name?: string; email?: string; message?: string }) {
+export async function updateMessage(id: string, updates: { name?: string; email?: string; message?: string; authorId?: string | null }) {
   return prisma.message.update({ where: { id }, data: updates });
 }
 
