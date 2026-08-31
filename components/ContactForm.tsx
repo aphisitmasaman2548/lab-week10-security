@@ -4,6 +4,7 @@ import { useState } from 'react';
 export default function ContactForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [tag, setTag] = useState('General');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -34,7 +35,7 @@ export default function ContactForm() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, message, tag }),
       });
 
       if (!res.ok) {
@@ -45,6 +46,7 @@ export default function ContactForm() {
       setStatus('success');
       setName('');
       setEmail('');
+      setTag('General');
       setMessage('');
     } catch {
       setStatus('error');
@@ -65,6 +67,19 @@ export default function ContactForm() {
         placeholder="อีเมล"
         className="border p-2 w-full rounded"
       />
+      <div>
+        <label className="block text-xs font-semibold text-gray-600 mb-1">หมวดหมู่ / Tag:</label>
+        <select
+          value={tag}
+          onChange={(e) => setTag(e.target.value)}
+          className="border p-2 w-full rounded bg-white text-sm"
+        >
+          <option value="General">General (ทั่วไป)</option>
+          <option value="Feedback">Feedback (ข้อเสนอแนะ)</option>
+          <option value="Inquiry">Inquiry (สอบถามข้อมูล)</option>
+          <option value="Support">Support (แจ้งปัญหา)</option>
+        </select>
+      </div>
       <textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}

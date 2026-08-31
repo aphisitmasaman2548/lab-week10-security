@@ -7,6 +7,7 @@ interface Message {
   name: string;
   email: string;
   message: string;
+  tag?: string | null;
   createdAt: string | Date;
   authorId?: string | null;
 }
@@ -62,14 +63,21 @@ export default function MessageList({ initialMessages, currentUserId }: Props) {
   }
 
   // ฟังก์ชันเริ่มแก้ไขข้อความ
-  function startEdit(msg: Message) {
-    setEditingId(msg.id);
-    setEditText(msg.message);
-    setFeedback(null);
+  function startEdit(message: Message) {
+    setEditingId(message.id);
+    setEditText(message.message);
   }
 
   // ฟังก์ชันบันทึกการแก้ไข (PATCH /api/messages/[id])
-  async function handleSaveEdit(messageId: string, authorName: string) {
+  async function handleSaveEdit(messageId: string) {
+    if (editText.trim().length < 5) {
+      setFeedback({
+        type: 'error',
+        message: 'ข้อความต้องมีความยาวอย่างน้อย 5 ตัวอักษร',
+      });
+      return;
+    }
+
     setLoading(messageId);
     setFeedback(null);
 
@@ -86,7 +94,7 @@ export default function MessageList({ initialMessages, currentUserId }: Props) {
         setFeedback({
           type: 'success',
           status: res.status,
-          message: `✅ สำเร็จ (HTTP ${res.status}): อัปเดตข้อความของ "${authorName}" สำเร็จเรียบร้อย`,
+          message: `✅ สำเร็จ (HTTP ${res.status}): แก้ไขข้อความเรียบร้อยแล้ว`,
         });
         setMessages((prev) =>
           prev.map((m) => (m.id === messageId ? { ...m, message: editText } : m))
@@ -141,7 +149,7 @@ export default function MessageList({ initialMessages, currentUserId }: Props) {
       )}
 
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <div className="px-6 border-b border-gray-100 flex items-center justify-between py-4">
           <div>
             <h2 className="text-lg font-bold text-blue-900">📬 รายการข้อความติดต่อ & ทดสอบสิทธิ์ (Authorization)</h2>
             <p className="text-xs text-gray-500 mt-0.5">
@@ -169,6 +177,11 @@ export default function MessageList({ initialMessages, currentUserId }: Props) {
                     <div className="flex items-center gap-2">
                       <span className="font-semibold text-blue-900">{m.name}</span>
                       <span className="text-xs text-gray-400">({m.email})</span>
+                      {m.tag && (
+                        <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">
+                          🏷️ {m.tag}
+                        </span>
+                      )}
 
                       {/* Badge แสดงสถานะความเป็นเจ้าของ */}
                       {isOwner ? (
