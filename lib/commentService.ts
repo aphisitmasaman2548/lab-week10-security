@@ -12,3 +12,15 @@ export async function listComments(itemId?: string) {
   }
   return CommentModel.getAllComments();
 }
+
+export async function reactToComment(commentId: string, emoji: CommentModel.ReactionType) {
+  const allowedEmojis: CommentModel.ReactionType[] = ['👍', '❤️', '😂', '🔥'];
+  if (!allowedEmojis.includes(emoji)) {
+    throw new Error('ประเภทอีโมจิไม่ถูกต้อง');
+  }
+  const updated = CommentModel.addReaction(commentId, emoji);
+  if (!updated) {
+    throw new Error('ไม่พบคอมเมนต์ที่ต้องการ React');
+  }
+  return updated;
+}
