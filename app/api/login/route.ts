@@ -18,9 +18,15 @@ export async function POST(request: Request) {
       return Response.json({ error: 'อีเมล/รหัสผ่านไม่ถูกต้อง' }, { status: 401 });
     }
 
-    const res = Response.json({ ok: true });
-    res.headers.set('Set-Cookie', `session=${user.id}; Path=/; HttpOnly; SameSite=Strict`);
-    return res;
+    const cookieStore = await cookies();
+    cookieStore.set('session', user.id, {
+      httpOnly: true,
+      path: '/',
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    });
+
+    return Response.json({ ok: true });
   } catch (err: any) {
     console.error('Login error:', err);
     return Response.json({ error: err.message || 'Internal Server Error' }, { status: 500 });

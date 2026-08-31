@@ -26,8 +26,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.push('/dashboard');
-      router.refresh();
+      window.location.href = '/dashboard';
     } catch {
       setError('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง');
     } finally {

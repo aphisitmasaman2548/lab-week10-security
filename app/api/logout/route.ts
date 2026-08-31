@@ -1,5 +1,13 @@
+import { cookies } from 'next/headers';
+
 export async function POST() {
-  const res = Response.json({ ok: true });
-  res.headers.set('Set-Cookie', 'session=; Path=/; HttpOnly; Max-Age=0; SameSite=Strict');
-  return res;
+  const cookieStore = await cookies();
+  cookieStore.set('session', '', {
+    httpOnly: true,
+    path: '/',
+    maxAge: 0,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+  });
+  return Response.json({ ok: true });
 }
