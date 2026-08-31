@@ -22,8 +22,10 @@ export async function createMessage(raw: unknown, authorId?: string | null) {
   }
 }
 
+// [Main Branch Version] Retrieve all messages
 export async function listMessages() {
-  return await MessageModel.getMessages();
+  const items = await MessageModel.getMessages();
+  return items;
 }
 
 export async function getMessageById(id: string) {
