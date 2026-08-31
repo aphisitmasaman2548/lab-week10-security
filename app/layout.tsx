@@ -40,7 +40,7 @@ export default function RootLayout({
           {children}
         </div>
         <footer className="text-center py-6 text-gray-400 text-sm border-t mt-8">
-          <p>© 2026 My Blog — สร้างด้วย Next.js + TypeScript</p>
+          <p>© 2026 My Blog — สร้างด้วย Next.js + TypeScript (Verified Deployment)</p>
           <p className="mt-1">0214321 Web App Design & Development</p>
         </footer>
       </body>
